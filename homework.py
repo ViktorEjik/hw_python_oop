@@ -63,10 +63,10 @@ class Training:
 class Running(Training):
     """Тренировка: бег."""
     def __init__(
-                self,
-                action: int,
-                duration: float,
-                weight: float
+                 self,
+                 action: int,
+                 duration: float,
+                 weight: float
                 ) -> None:
         super().__init__(action, duration, weight)
         self.LEN_STEP = 0.65
@@ -104,8 +104,8 @@ class SportsWalking(Training):
         height = self.height
         time = self.duration
 
-        return ((coeff_1 * weight + (mean_speed**2 // height) *
-                 coeff_2 * weight) * time)
+        return (coeff_1 * weight + (mean_speed**2 // height) *\
+                coeff_2 * weight) * time
 
 
 class Swimming(Training):
@@ -129,12 +129,12 @@ class Swimming(Training):
         time = self.duration
         M_IN_KM = self.M_IN_KM
 
-        return length * count_pool/ M_IN_KM / time
+        return length * count_pool / M_IN_KM / time
 
     def get_spent_calories(self) -> float:
         mean_speed = self. get_mean_speed()
         cooff_1 = 1.1
-        cooff_2 =2
+        cooff_2 = 2
         weight = self.weight
 
         return (mean_speed + cooff_1) * cooff_2 * weight
@@ -166,4 +166,3 @@ if __name__ == '__main__':
     for workout_type, data in packages:
         training = read_package(workout_type, data)
         main(training)
-
