@@ -62,11 +62,12 @@ class Training:
 
 class Running(Training):
     """Тренировка: бег."""
-    def __init__(self, 
-                 action: int,
-                 duration: float, 
-                 weight: float
-                 ) -> None:
+    def __init__(
+                self,
+                action: int,
+                duration: float,
+                weight: float
+                ) -> None:
         super().__init__(action, duration, weight)
         self.LEN_STEP = 0.65
         self.training_tupe = 'RUN'
@@ -84,9 +85,9 @@ class Running(Training):
 
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
-    def __init__(self, 
+    def __init__(self,
                  action: int,
-                 duration: float, 
+                 duration: float,
                  weight: float,
                  height: float
                  ) -> None:
@@ -103,15 +104,15 @@ class SportsWalking(Training):
         height = self.height
         time = self.duration
 
-        return ((coeff_1 * weight + (mean_speed**2 // height) * 
+        return ((coeff_1 * weight + (mean_speed**2 // height) *
                  coeff_2 * weight) * time)
 
 
 class Swimming(Training):
     """Тренировка: плавание."""
-    def __init__(self, 
+    def __init__(self,
                  action: int,
-                 duration: float, 
+                 duration: float,
                  weight: float,
                  length_pool: float,
                  count_pool: int
@@ -128,7 +129,7 @@ class Swimming(Training):
         time = self.duration
         M_IN_KM = self.M_IN_KM
 
-        return length * count_pool/ M_IN_KM / time 
+        return length * count_pool/ M_IN_KM / time
 
     def get_spent_calories(self) -> float:
         mean_speed = self. get_mean_speed()
@@ -136,7 +137,7 @@ class Swimming(Training):
         cooff_2 =2
         weight = self.weight
 
-        return (mean_speed + 1.1) * 2 * weight
+        return (mean_speed + cooff_1) * cooff_2 * weight
 
 
 def read_package(workout_type: str, data: list) -> Training:
