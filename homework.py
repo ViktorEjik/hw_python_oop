@@ -19,9 +19,10 @@ class InfoMessage:
         distance = self.distance
         speed = self.speed
         calories = self.calories
-        ans_str = ('Тип тренировки: ' + str(training_type) +
-                   ' Длительность: ' + str(duration) + ' ч.; Дистанция: ' + str(distance) + ' км; ' + 
-                   'Ср. скорость: ' + str(speed) + ' км/ч; Потрачено ккал: ' + str(calories))
+        ans_str = ('Тип тренировки: ' + str(training_type)
+                   + ' Длительность: ' + str(duration) + ' ч.; Дистанция: '
+                   + str(distance) + ' км; ' + 'Ср. скорость: ' + str(speed)
+                   + ' км/ч; Потрачено ккал: ' + str(calories))
         return ans_str
 
 
@@ -104,8 +105,8 @@ class SportsWalking(Training):
         mean_speed = self.get_mean_speed()
         height = self.height
         time = self.duration
-        return (coeff_1 * weight + (mean_speed**2 // height) * 
-                coeff_2 * weight) * time
+        return (coeff_1 * weight + (mean_speed**2 // height)
+                * coeff_2 * weight) * time
 
 
 class Swimming(Training):
