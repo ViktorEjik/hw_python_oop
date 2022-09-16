@@ -2,16 +2,16 @@ class InfoMessage:
     """Информационное сообщение о тренировке."""
     def __init__(self,
                  training_type: str,
-                 duration: int,
-                 distance: int,
-                 speed: int,
-                 calories: int
+                 duration: float,
+                 distance: float,
+                 speed: float,
+                 calories: float
                  ) -> None:
         self.training_type = training_type
-        self.duration = round(duration, 3)
-        self.distance = round(distance, 3)
-        self.speed = round(speed, 3)
-        self.calories = round(calories, 3)
+        self.duration = duration
+        self.distance = distance
+        self.speed = speed
+        self.calories = calories
 
     def get_message(self) -> str:
         training_type = self.training_type
@@ -19,18 +19,19 @@ class InfoMessage:
         distance = self.distance
         speed = self.speed
         calories = self.calories
-        ans_str = ('Тип тренировки: ' + str(training_type)
-                   + ' Длительность: ' + str(duration) + ' ч.; Дистанция: '
-                   + str(distance) + ' км; ' + 'Ср. скорость: ' + str(speed)
-                   + ' км/ч; Потрачено ккал: ' + str(calories))
+        ans_str = (f'Тип тренировки: {training_type};'
+                   f' Длительность: {duration:.3f} ч.;'
+                   f' Дистанция: {distance:.3f} км;'
+                   f' Ср. скорость: {speed:.3f} км/ч;'
+                   f' Потрачено ккал: {calories:.3f}.'
+                   )
         return ans_str
 
 
 class Training:
     """Базовый класс тренировки."""
     M_IN_KM: int = 1000
-    training_tupe: str
-    LEN_STEP: int
+    LEN_STEP: float = 0.65
 
     def __init__(self,
                  action: int,
@@ -55,7 +56,7 @@ class Training:
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
-        return InfoMessage(training_type=self.training_tupe,
+        return InfoMessage(type(self).__name__,
                            duration=self.duration,
                            distance=self.get_distance(),
                            speed=self.get_mean_speed(),
@@ -72,7 +73,6 @@ class Running(Training):
                  ) -> None:
         super().__init__(action, duration, weight)
         self.LEN_STEP = 0.65
-        self.training_tupe = 'RUN'
 
     def get_spent_calories(self) -> float:
         mean_speed = self.get_mean_speed()
@@ -82,7 +82,7 @@ class Running(Training):
         coeff_1 = 18
         coeff_2 = 20
 
-        return (coeff_1 * mean_speed - coeff_2) * weight / M_IN_KM * time
+        return (coeff_1 * mean_speed - coeff_2) * weight / M_IN_KM * time * 60
 
 
 class SportsWalking(Training):
@@ -96,7 +96,6 @@ class SportsWalking(Training):
         super().__init__(action, duration, weight)
         self.LEN_STEP = 0.65
         self.height = height
-        self.training_tupe = 'WLK'
 
     def get_spent_calories(self) -> float:
         coeff_1 = 0.035
@@ -106,11 +105,13 @@ class SportsWalking(Training):
         height = self.height
         time = self.duration
         return (coeff_1 * weight + (mean_speed**2 // height)
-                * coeff_2 * weight) * time
+                * coeff_2 * weight) * time * 60
 
 
 class Swimming(Training):
     """Тренировка: плавание."""
+    LEN_STEP: float = 1.38
+
     def __init__(self,
                  action: int,
                  duration: float,
@@ -119,10 +120,8 @@ class Swimming(Training):
                  count_pool: int
                  ) -> None:
         super().__init__(action, duration, weight)
-        self.LEN_STEP = 1.38
         self.count_pool = count_pool
         self.length_pool = length_pool
-        self.training_tupe = 'SWM'
 
     def get_mean_speed(self) -> float:
         length = self.length_pool
