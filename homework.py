@@ -1,5 +1,5 @@
 from dataclasses import asdict, dataclass
-from typing import Dict, List, Type
+from typing import ClassVar, Dict, List, Type
 
 
 @dataclass
@@ -10,7 +10,7 @@ class InfoMessage:
     distance: float
     speed: float
     calories: float
-    ANSWER_TEAMPLATE = (
+    ANSWER_TEAMPLATE: ClassVar[str] = (
         'Тип тренировки: {training_type};'
         ' Длительность: {duration:.3f} ч.;'
         ' Дистанция: {distance:.3f} км;'
@@ -48,7 +48,7 @@ class Training:
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
         raise NotImplementedError(
-            f'Данного метода нет у класса {(self).__name__}'
+            ': class does not have get_spent_calories()'
         )
 
     def show_training_info(self) -> InfoMessage:
@@ -64,7 +64,6 @@ class Training:
 
 class Running(Training):
     """Тренировка: бег."""
-    LEN_STEP: float = 0.65
     COEFF_1: int = 18
     COEFF_2: int = 20
 
@@ -78,7 +77,6 @@ class Running(Training):
 
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
-    LEN_STEP: float = 0.65
     COEFF_1: float = 0.035
     COEFF_2: float = 0.029
 
@@ -133,7 +131,7 @@ def read_package(workout_type: str, data: List[float]) -> Training:
         'RUN': Running,
         'WLK': SportsWalking
     }
-    if not (workout_type in diction):
+    if workout_type not in diction:
         raise ValueError(': no key in diction')
     return diction[workout_type](*data)
 
